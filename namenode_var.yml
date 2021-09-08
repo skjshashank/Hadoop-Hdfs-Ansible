@@ -1,0 +1,19 @@
+hadoop_location: "/root/hadoop-1.2.1-1.x86_64.rpm"
+
+jdk_location: "/root/jdk-8u171-linux-x64.rpm"
+
+hadoop_soft: "hadoop-1.2.1-1.x86_64.rpm"
+
+jdk_soft: "jdk-8u171-linux-x64.rpm"
+
+core_site_hadoop: "/root/ansible-playbooks/Hadoop_setup/namenode/core-site.xml"
+
+hdfs_site_hadoop: "/root/ansible-playbooks/Hadoop_setup/namenode/hdfs-site.xml"
+
+dir_path: "/nn"
+
+namenode_ip: "192.168.43.167"
+
+namenode_port: "9001"
+
+hadoop_report: "hadoop dfsadmin -report"

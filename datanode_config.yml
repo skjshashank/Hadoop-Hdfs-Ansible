@@ -1,0 +1,63 @@
+- hosts: datanode
+  vars_files:
+          - datanode_var.yml
+  tasks:
+          - name: copy jdk software
+            copy:
+                    src: "{{ jdk_location }}"
+                    dest: "/root/"
+          - name: "Install jdk  software"
+            shell: "rpm -ivh {{ jdk_soft }}"
+            register: jdk
+            ignore_errors: yes
+          - name: "Installation"
+            debug:
+                    var: jdk.stdout
+          - name: "copy hadoop software"
+            copy:
+                    src: "{{ hadoop_location }}"
+                    dest: "/root/"
+          - name: "Install hadoop  software"
+            shell: "rpm -ivh {{ hadoop_soft }} --force"
+            register: hadoop
+            ignore_errors: yes
+          - name: "Installation"
+            debug:
+                    var: hadoop.stdout
+
+          - name: "Copying core-site.xml file"
+            template:
+                    src: "{{ core_site_hadoop }}"
+                    dest: "/etc/hadoop/"
+          - name: "Copying the hdfs-site.xml file"
+            template:
+                    src: "{{ hdfs_site_hadoop }}"
+                    dest: "/etc/hadoop/"
+          - name: "Deleting the directory"
+            shell: "rm -rf {{ dir_path }}"
+            ignore_errors: yes
+          - name: "Creating a directory"
+            file:
+                    state: directory
+                    path: "{{ dir_path }}"
+          - name: "Stoping the datanode"
+            shell: "hadoop-daemon.sh stop datanode"
+            ignore_errors: yes
+            register: datanode__stop
+          - name: "Stopping hadoop datanode"
+            debug:
+                   var: dataode_stop.stdout
+
+          - name: "Starting the datanode"
+            shell: "hadoop-daemon.sh start datanode"
+            register: hadoop_started
+          - name: "Started hadoop"
+            debug:
+                   var: hadoop_started.stdout
+          - name: "Java Process"
+            shell: "jps"
+            register: jps
+          - name: "Java Process"
+            debug:
+                    var: jps.stdout
+
